@@ -4,15 +4,25 @@ import random as rn
 import matplotlib.pyplot as plt
 import brian as br
 
-# one can calculate different measures for synchrony given the raster with neuron number = row number and time step = column number
+# Helper functions
+def ISI(raster):
+	liste = []
+	for j in xrange(len(raster)):
+		idx = np.where(raster[j]==1)[0]
+		for i in xrange(len(idx)-1):
+			liste.append(idx[i+1]-idx[i])
+	return liste
 
 def poprate(raster,upper,lower): # calculate the population rate
 	return float(np.sum(np.sum(raster.T[upper:lower])))/(np.shape(raster.T[upper:lower])[0]*np.shape(raster.T[upper:lower])[1])
 
+# actual measurement functions
+# signature is always fun(raster) -> np.float
+# one can calculate different measures for synchrony given the raster with neuron number = row number and time step = column number
+
 def Renart_measure(raster):
 	mat = np.corrcoef(x=raster, bias=1)
-	return 1./(len(mat)*len(mat))*sum(sum(mat))
-	
+	return 1./(len(mat)*len(mat))*sum(sum(mat))	
 def spike_var(raster):
 	Tmax = np.shape(raster)[1]
 	N = np.shape(raster)[0]
@@ -35,14 +45,6 @@ def my_measure(raster): # normalized CV_si
 	normalize = np.sqrt(spikemean/N*(N-spikemean)**2+(1-spikemean/N)*spikemean**2)
 	m = np.std(bins)/normalize
 	return m
-	
-def ISI(raster):
-	liste = []
-	for j in xrange(len(raster)):
-		idx = np.where(raster[j]==1)[0]
-		for i in xrange(len(idx)-1):
-			liste.append(idx[i+1]-idx[i])
-	return liste
 	
 def CV_ISI(raster):
 	liste = ISI(raster)
