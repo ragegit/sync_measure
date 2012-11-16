@@ -12,6 +12,12 @@ from create_matrix_SR_SI_AR_AI import* # functions to creat matrices or change e
 from measures import *
 from rasterplotMatrix import *
 
+list_names = ['SR','AR','SI','AI','M5','M20','P','smaller_step_SR','smaller_step_noisy_SR','smaller_step_more_noisy_SR']
+measurelist = [Renart_measure, my_measure, poisson_measure]
+measurement_dict = {fun.__name__ : {
+	listname + 'list' : [] for listname in list_names
+	} for fun in measurelist}
+
 # Renart
 rSRlist = []
 smaller_step_rSRlist = []
