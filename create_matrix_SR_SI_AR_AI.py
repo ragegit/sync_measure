@@ -103,6 +103,13 @@ def add_noise(raster):
 		i=i+1
 	return newraster
 	
+def mixed5(N,Tmax):
+	return mixed(N,Tmax,5)
+def mixed10(N,Tmax):
+	return mixed(N,Tmax,10)
+def mixed20(N,Tmax):
+	return mixed(N,Tmax,20)
+
 def mixed(N,Tmax,popspikes):
 	mat = np.floor(1./9*np.random.randint(10, size=(N,Tmax)))
 	number = int((float(Tmax))/popspikes)
