@@ -391,7 +391,7 @@ def main(N,Tmax):
 	print("Mixed 20 \t \t %f \t %f \t %f" %(rM20,mM20,pM20))
 	print("Poisson \t \t %f \t %f \t %f" %(rP,mP,pP))
 	
-		rSRlist.append(rSR)
+	rSRlist.append(rSR)
 	smaller_step_rSRlist.append(smaller_step_rSR)
 	smaller_step_noisy_rSRlist.append(smaller_step_noisy_rSR)
 	smaller_step_more_noisy_rSRlist.append(smaller_step_more_noisy_rSR)
