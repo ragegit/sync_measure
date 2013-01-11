@@ -4,6 +4,7 @@ import itertools as it
 import random as rn
 import matplotlib.pyplot as plt
 import brian as br
+import copy as cp
 
 # Helper functions
 
@@ -32,7 +33,7 @@ def smaller_step(raster):
 	
 def shuffle(raster, n): # Choses n spikes in a rasterplot and moves them to a random spot. Then the rasterplot is appended in a list. The procedure continues until all spikes where moved
 	rasterlist = [raster]
-	cp_raster = raster
+	cp_raster = cp.copy(raster)
 	idx_spike = list(np.array(np.where(raster==1)).T)
 	idx_silence = list(np.array(np.where(raster==0)).T)
 	N = min(len(idx_spike),len(idx_silence))
