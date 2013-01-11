@@ -25,17 +25,24 @@ def generate_table(dictionary,xlist,ylist,functor,fmt,sep):
 	for yfunc in ylist:
 		string += yfunc.__name__ + '\t' + '\t'.join(map(fmt.format,[functor(dictionary[xfunc][yfunc]) for xfunc in xlist])) + '\n'
 	return string
-	
-raster_types = [SR,AR,SI,AI,mixed5,mixed10,mixed20,Poisson,smaller_step_SR,smaller_step_noisy_SR,smaller_step_more_noisy_SR]
 
-measurelist = [Renart_measure, my_measure, poisson_measure]
+def list_from_csv(filename):
+	data = []
+	with open(filename, 'rb') as csvfile:
+		reader = csv.reader(csvfile, delimiter='\t')
+		for row in reader:
+			data.append(row)
+	return data
+	
+raster_types = [SR,AR,SI,AI,AR_pattern,drift,osc,mixed5,mixed20,Poisson,smaller_step_SR,smaller_step_noisy_SR]
+measurelist = [Renart_measure, my_measure, fano_factor]
 measurement_dict = {fun: {
 	func: [] for func in raster_types
 	} for fun in measurelist}
 
 N = 10
-Tmax = 20
-num_iterations=40
+Tmax = 20000
+num_iterations=10
 
 for i in xrange(num_iterations):
 	# different raster plots named by their features
@@ -44,10 +51,11 @@ for i in xrange(num_iterations):
 		for measurement in measurelist:
 			measurement_dict[measurement][raster_type].append(measurement(rasters[raster_type]))
 
-f = open('output1.csv', 'w')
+f = open('output_var_N' + String(N) + '.csv', 'w')
 f.write(generate_table(measurement_dict,measurelist,raster_types,np.var,r'{}',','))
 f.close()
 
-f = open('output2.csv', 'w')
+f = open('output_mean' + String(N) + '.csv', 'w')
 f.write(generate_table(measurement_dict,measurelist,raster_types,np.mean,r'{}',','))
 f.close()
+
